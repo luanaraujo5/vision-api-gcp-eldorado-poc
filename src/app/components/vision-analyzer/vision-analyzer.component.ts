@@ -1,7 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ApiService, DetectionType, VisionResponse } from '../../services/api.service';
+import { CameraService, CameraStream } from '../../services/camera.service';
+import { PwaService } from '../../services/pwa.service';
+import { Subscription } from 'rxjs';
 
 /**
  * Componente principal para análise de imagens usando Google Vision API
@@ -14,9 +17,24 @@ import { ApiService, DetectionType, VisionResponse } from '../../services/api.se
   templateUrl: './vision-analyzer.component.html',
   styleUrls: ['./vision-analyzer.component.css']
 })
-export class VisionAnalyzerComponent {
+export class VisionAnalyzerComponent implements OnInit, OnDestroy {
+  @ViewChild('cameraVideo', { static: false }) cameraVideo!: ElementRef<HTMLVideoElement>;
+  
   /** Imagem selecionada pelo usuário */
   selectedImage: File | null = null;
+  
+  /** Estado da câmera */
+  cameraActive = false;
+  cameraStream: MediaStream | null = null;
+  cameraError: string | null = null;
+  
+  /** Estado PWA */
+  isPWAInstalled = false;
+  installPromptAvailable = false;
+  isOnline = true;
+  
+  /** Subscriptions para cleanup */
+  private subscriptions = new Subscription();
   
   /** Preview da imagem em base64 para exibição */
   imagePreview: string | null = null;
@@ -108,7 +126,43 @@ export class VisionAnalyzerComponent {
     }
   ];
 
-  constructor(private apiService: ApiService) { }
+  constructor(
+    private apiService: ApiService,
+    private cameraService: CameraService,
+    private pwaService: PwaService
+  ) { }
+
+  ngOnInit(): void {
+    this.setupPWASubscriptions();
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
+    this.stopCamera();
+  }
+
+  /**
+   * Configura as subscriptions PWA
+   */
+  private setupPWASubscriptions(): void {
+    this.subscriptions.add(
+      this.pwaService.getInstallStatus().subscribe(
+        (installed) => this.isPWAInstalled = installed
+      )
+    );
+
+    this.subscriptions.add(
+      this.pwaService.getInstallPromptAvailable().subscribe(
+        (available) => this.installPromptAvailable = available
+      )
+    );
+
+    this.subscriptions.add(
+      this.pwaService.getOnlineStatus().subscribe(
+        (online) => this.isOnline = online
+      )
+    );
+  }
 
   /**
    * Manipula a seleção de imagem pelo usuário
@@ -296,5 +350,143 @@ export class VisionAnalyzerComponent {
       return 'N/A';
     }
     return (score * 100).toFixed(0);
+  }
+
+  // ===== MÉTODOS DA CÂMERA =====
+
+  /**
+   * Inicia a câmera
+   */
+  startCamera(): void {
+    this.cameraError = null;
+    this.cameraActive = true;
+
+    this.cameraService.startCamera()
+      .subscribe({
+        next: (stream) => {
+          this.cameraStream = stream.stream;
+          this.cameraError = null;
+        },
+        error: (error) => {
+          this.cameraError = error.message;
+          this.cameraActive = false;
+        }
+      });
+  }
+
+  /**
+   * Para a câmera
+   */
+  stopCamera(): void {
+    this.cameraService.stopCamera();
+    this.cameraActive = false;
+    this.cameraStream = null;
+    this.cameraError = null;
+  }
+
+  /**
+   * Evento quando o vídeo da câmera é carregado
+   */
+  onVideoLoaded(): void {
+    console.log('Vídeo da câmera carregado com sucesso');
+  }
+
+  /**
+   * Captura uma foto da câmera
+   */
+  capturePhoto(): void {
+    if (!this.cameraStream || !this.cameraVideo?.nativeElement) {
+      this.cameraError = 'Câmera não está disponível';
+      return;
+    }
+
+    // Aguarda um pouco para garantir que o vídeo esteja renderizando
+    setTimeout(() => {
+      try {
+        const videoElement = this.cameraVideo.nativeElement;
+        
+        // Verifica se o vídeo tem dimensões válidas
+        if (videoElement.videoWidth === 0 || videoElement.videoHeight === 0) {
+          this.cameraError = 'Vídeo ainda não está pronto. Aguarde um momento e tente novamente.';
+          return;
+        }
+
+        this.cameraService.capturePhoto(videoElement)
+          .subscribe({
+            next: (photoDataUrl) => {
+              // Converte para File e usa como imagem selecionada
+              const file = this.cameraService.dataUrlToFile(photoDataUrl, 'camera-photo.jpg');
+              this.selectedImage = file;
+              this.createImagePreview(file);
+              this.stopCamera();
+              this.error = null;
+              this.results = null;
+            },
+            error: (error) => {
+              this.cameraError = 'Erro ao capturar foto: ' + error.message;
+            }
+          });
+      } catch (error) {
+        this.cameraError = 'Erro ao capturar foto: ' + error;
+      }
+    }, 500); // Aguarda 500ms para o vídeo renderizar
+  }
+
+  /**
+   * Alterna entre câmera frontal e traseira
+   */
+  switchCamera(): void {
+    if (!this.cameraStream) return;
+
+    this.cameraService.switchCamera()
+      .subscribe({
+        next: (stream) => {
+          this.cameraStream = stream.stream;
+          this.cameraError = null;
+        },
+        error: (error) => {
+          this.cameraError = 'Erro ao alternar câmera: ' + error.message;
+        }
+      });
+  }
+
+  // ===== MÉTODOS PWA =====
+
+  /**
+   * Instala o app como PWA
+   */
+  async installPWA(): Promise<void> {
+    try {
+      await this.pwaService.showInstallPrompt();
+    } catch (error) {
+      console.error('Erro ao instalar PWA:', error);
+    }
+  }
+
+  /**
+   * Verifica atualizações do app
+   */
+  checkForUpdates(): void {
+    this.pwaService.checkForUpdates().subscribe({
+      next: (hasUpdates) => {
+        if (hasUpdates) {
+          console.log('Atualizações disponíveis');
+        }
+      }
+    });
+  }
+
+  /**
+   * Atualiza o app
+   */
+  updateApp(): void {
+    this.pwaService.updateApp();
+  }
+
+  /**
+   * Solicita permissão para notificações
+   */
+  requestNotificationPermission(): void {
+    this.pwaService.requestNotificationPermission();
   }
 }

@@ -9,6 +9,11 @@ Frontend Angular para análise de imagens usando a Google Vision API.
 ## 🚀 Funcionalidades
 
 - **Upload de Imagens**: Suporte para JPG, PNG, GIF e BMP
+- **📷 Captura por Câmera**: Tire fotos diretamente do app
+- **🔄 Câmera Dupla**: Alternância entre câmera frontal e traseira
+- **📱 PWA (Progressive Web App)**: Instale o app no seu dispositivo
+- **🌐 Funcionamento Offline**: Cache inteligente para uso sem internet
+- **🔔 Notificações Push**: Receba alertas de status e atualizações
 - **11 Tipos de Detecção**:
   - Detecção de Rosto (emoções, pose, qualidade)
   - Detecção de Lugares Famosos
@@ -29,6 +34,9 @@ Frontend Angular para análise de imagens usando a Google Vision API.
 - **Google Vision API** para análise de imagens
 - **CSS Variables** para design system
 - **Responsive Design** mobile-first
+- **📱 PWA Support** com service worker
+- **📷 MediaDevices API** para acesso à câmera
+- **🔧 Service Worker** para cache offline
 
 ## 📋 Pré-requisitos
 
@@ -83,19 +91,34 @@ export const environment = {
 
 ## 🚀 Uso
 
+### 📱 Como PWA
 1. **Acesse a aplicação** em `http://localhost:4200`
-2. **Faça upload de uma imagem** clicando na área de upload
-3. **Selecione os tipos de detecção** desejados
-4. **Clique em "Analisar Imagem"**
-5. **Visualize os resultados** organizados por categoria
+2. **Clique em "Instalar"** na barra lateral para instalar o app
+3. **Use o app** como um aplicativo nativo do seu dispositivo
+
+### 📷 Captura por Câmera
+1. **Clique em "Usar Câmera"** para ativar a câmera
+2. **Posicione o objeto** na tela da câmera
+3. **Clique no botão de captura** (📸) para tirar a foto
+4. **Use os controles** para alternar entre câmeras ou fechar
+
+### 🖼️ Upload de Arquivo
+1. **Faça upload de uma imagem** clicando na área de upload
+2. **Selecione os tipos de detecção** desejados
+3. **Clique em "Analisar Imagem"**
+4. **Visualize os resultados** organizados por categoria
 
 
-## 📱 Responsividade
+## 📱 Responsividade e PWA
 
 - **Mobile-first** design
 - **Sidebar colapsável** em telas pequenas
 - **Grid adaptativo** para diferentes tamanhos de tela
 - **Touch-friendly** para dispositivos móveis
+- **📱 Instalação PWA** em dispositivos móveis e desktop
+- **🌐 Funcionamento offline** com cache inteligente
+- **🔔 Notificações push** para atualizações e status
+- **📷 Acesso à câmera** nativo do dispositivo
 
 ## 🔒 Segurança
 

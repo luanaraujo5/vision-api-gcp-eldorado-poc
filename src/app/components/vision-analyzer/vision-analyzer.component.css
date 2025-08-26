@@ -92,6 +92,58 @@
   background: var(--hover-color);
 }
 
+/* ===== PWA INSTALL BUTTON ===== */
+.pwa-install-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md) var(--spacing-lg);
+  border: none;
+  background: var(--primary-color);
+  color: white;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+  margin-bottom: var(--spacing-md);
+}
+
+.pwa-install-btn:hover {
+  background: var(--primary-hover);
+  transform: translateY(-1px);
+}
+
+/* ===== PWA STATUS ===== */
+.pwa-status {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md) var(--spacing-lg);
+  background: var(--success-color);
+  color: white;
+  border-radius: var(--radius-md);
+  margin-bottom: var(--spacing-md);
+  font-size: 0.9rem;
+}
+
+/* ===== CONNECTION STATUS ===== */
+.connection-status {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md) var(--spacing-lg);
+  background: var(--success-color);
+  color: white;
+  border-radius: var(--radius-md);
+  margin-bottom: var(--spacing-md);
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.connection-status.offline {
+  background: var(--warning-color);
+}
+
 /* ===== CONTEÚDO PRINCIPAL ===== */
 .main-content {
   flex: 1;
@@ -242,6 +294,116 @@
   align-items: center;
   justify-content: center;
   background: var(--bg-secondary);
+}
+
+/* ===== CAMERA INTERFACE ===== */
+.camera-container {
+  margin-bottom: var(--spacing-lg);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--bg-secondary);
+  border: 2px solid var(--border-color);
+}
+
+.camera-viewport {
+  position: relative;
+  width: 100%;
+  height: 400px;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.camera-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.camera-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+  padding: var(--spacing-lg);
+}
+
+.camera-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-md);
+}
+
+.btn-camera-control {
+  background: rgba(255, 255, 255, 0.2);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.btn-camera-control:hover {
+  background: rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: scale(1.1);
+}
+
+.btn-capture {
+  background: var(--primary-color);
+  border: 3px solid white;
+  color: white;
+  border-radius: 50%;
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1.5rem;
+}
+
+.btn-capture:hover {
+  background: var(--primary-hover);
+  transform: scale(1.1);
+  box-shadow: 0 0 20px rgba(0, 123, 255, 0.5);
+}
+
+.camera-error {
+  padding: var(--spacing-md);
+  background: var(--error-color);
+  color: white;
+  text-align: center;
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+}
+
+.camera-error .error-icon {
+  margin-right: var(--spacing-sm);
+}
+
+/* ===== CAMERA BUTTON ===== */
+.btn-camera {
+  background: var(--success-color);
+  color: white;
+}
+
+.btn-camera:hover {
+  background: var(--success-hover);
+}
+
+.btn-camera:disabled {
+  background: var(--disabled-color);
+  cursor: not-allowed;
 }
 
 .upload-area:hover {

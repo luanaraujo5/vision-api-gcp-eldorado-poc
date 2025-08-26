@@ -17,6 +17,29 @@
     </nav>
     
     <div class="sidebar-footer">
+      <!-- PWA Install Button -->
+      <button 
+        *ngIf="installPromptAvailable && !isPWAInstalled" 
+        (click)="installPWA()" 
+        class="pwa-install-btn"
+        title="Instalar App"
+      >
+        <span class="nav-icon">📱</span>
+        <span class="nav-text">Instalar</span>
+      </button>
+      
+      <!-- PWA Status -->
+      <div *ngIf="isPWAInstalled" class="pwa-status">
+        <span class="nav-icon">✅</span>
+        <span class="nav-text">Instalado</span>
+      </div>
+      
+      <!-- Connection Status -->
+      <div class="connection-status" [class.offline]="!isOnline">
+        <span class="nav-icon">{{ isOnline ? '🌐' : '📡' }}</span>
+        <span class="nav-text">{{ isOnline ? 'Online' : 'Offline' }}</span>
+      </div>
+      
       <button class="logout-btn">
         <span class="nav-icon">🚪</span>
         <span class="nav-text">Sair</span>
@@ -77,10 +100,48 @@
 
         <input #fileInput type="file" accept="image/*" (change)="onImageSelected($event)" class="file-input">
         
+        <!-- Camera Interface -->
+        <div *ngIf="cameraActive" class="camera-container">
+          <div class="camera-viewport">
+            <video 
+              #cameraVideo 
+              [srcObject]="cameraStream" 
+              autoplay 
+              playsinline 
+              muted
+              class="camera-video"
+              (loadedmetadata)="onVideoLoaded()"
+            ></video>
+            
+            <div class="camera-overlay">
+              <div class="camera-controls">
+                <button (click)="switchCamera()" class="btn btn-camera-control" title="Alternar Câmera">
+                  <span class="btn-icon">🔄</span>
+                </button>
+                <button (click)="capturePhoto()" class="btn btn-capture" title="Capturar Foto">
+                  <span class="btn-icon">📸</span>
+                </button>
+                <button (click)="stopCamera()" class="btn btn-camera-control" title="Fechar Câmera">
+                  <span class="btn-icon">❌</span>
+                </button>
+              </div>
+            </div>
+          </div>
+          
+          <div *ngIf="cameraError" class="camera-error">
+            <span class="error-icon">⚠️</span>
+            <span class="error-text">{{ cameraError }}</span>
+          </div>
+        </div>
+        
         <div class="upload-actions">
           <button (click)="fileInput.click()" class="btn btn-primary">
             <span class="btn-icon">📁</span>
             Escolher Arquivo
+          </button>
+          <button (click)="startCamera()" class="btn btn-camera" [disabled]="cameraActive">
+            <span class="btn-icon">📷</span>
+            Usar Câmera
           </button>
           <button *ngIf="imagePreview" (click)="clearAll()" class="btn btn-secondary">
             <span class="btn-icon">🗑️</span>
