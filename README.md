@@ -2,6 +2,10 @@
 
 Frontend Angular para análise de imagens usando a Google Vision API.
 
+![Sistema Vision API Frontend](src/assets/image.png)
+
+## 📸 Screenshot do Sistema
+
 ## 🚀 Funcionalidades
 
 - **Upload de Imagens**: Suporte para JPG, PNG, GIF e BMP
@@ -84,6 +88,7 @@ export const environment = {
 3. **Selecione os tipos de detecção** desejados
 4. **Clique em "Analisar Imagem"**
 5. **Visualize os resultados** organizados por categoria
+
 
 ## 📱 Responsividade
 
