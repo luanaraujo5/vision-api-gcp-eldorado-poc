@@ -2,12 +2,12 @@
   <!-- Left Sidebar -->
   <aside class="sidebar">
     <div class="sidebar-header">
-      <img src="/logo-branco.svg" alt="Logo da Empresa" class="company-logo">
+      <img src="assets/logo-branco.svg" alt="Logo da Empresa" class="company-logo">
     </div>
     
     <nav class="sidebar-nav">
       <div class="nav-item">
-        <span class="nav-icon">📊</span>
+        <span class="nav-icon">😎</span>
         <span class="nav-text">Vision API</span>
       </div>
       <div class="nav-item active">
@@ -185,40 +185,40 @@
 
         <div class="results-container">
           <!-- Face Detection -->
-          <div *ngIf="results.responses?.[0]?.faceAnnotations?.length" class="result-card">
+          <div *ngIf="results?.responses?.[0]?.faceAnnotations?.length" class="result-card">
             <div class="result-header">
               <span class="result-icon">😊</span>
               <h4>Detecção de Rosto</h4>
-              <span class="result-count">{{ results.responses[0].faceAnnotations?.length || 0 }} rosto(s)</span>
+              <span class="result-count">{{ results?.responses?.[0]?.faceAnnotations?.length || 0 }} rosto(s)</span>
             </div>
             <div class="result-content">
-              <div *ngFor="let face of results.responses[0]?.faceAnnotations || []; let i = index" class="face-item">
+              <div *ngFor="let face of (results?.responses?.[0]?.faceAnnotations || []); let i = index" class="face-item">
                 <div class="face-header">
                   <h5>Rosto {{ i + 1 }}</h5>
                   <span class="confidence-badge">
-                    {{ (face.detectionConfidence * 100).toFixed(0) }}%
+                    {{ ((face?.detectionConfidence ?? 0) * 100) | number:'1.0-0' }}%
                   </span>
                 </div>
                 <div class="emotions-grid">
-                  <div *ngIf="face.joyLikelihood" class="emotion-item">
+                  <div *ngIf="face?.joyLikelihood" class="emotion-item">
                     <span class="emotion-icon">😊</span>
                     <span class="emotion-label">Alegria</span>
-                    <span class="emotion-value">{{ face.joyLikelihood }}</span>
+                    <span class="emotion-value">{{ face?.joyLikelihood }}</span>
                   </div>
-                  <div *ngIf="face.sorrowLikelihood" class="emotion-item">
+                  <div *ngIf="face?.sorrowLikelihood" class="emotion-item">
                     <span class="emotion-icon">😢</span>
                     <span class="emotion-label">Tristeza</span>
-                    <span class="emotion-value">{{ face.sorrowLikelihood }}</span>
+                    <span class="emotion-value">{{ face?.sorrowLikelihood }}</span>
                   </div>
-                  <div *ngIf="face.angerLikelihood" class="emotion-item">
+                  <div *ngIf="face?.angerLikelihood" class="emotion-item">
                     <span class="emotion-icon">😠</span>
                     <span class="emotion-label">Raiva</span>
-                    <span class="emotion-value">{{ face.angerLikelihood }}</span>
+                    <span class="emotion-value">{{ face?.angerLikelihood }}</span>
                   </div>
-                  <div *ngIf="face.surpriseLikelihood" class="emotion-item">
+                  <div *ngIf="face?.surpriseLikelihood" class="emotion-item">
                     <span class="emotion-icon">😲</span>
                     <span class="emotion-label">Surpresa</span>
-                    <span class="emotion-value">{{ face.surpriseLikelihood }}</span>
+                    <span class="emotion-value">{{ face?.surpriseLikelihood }}</span>
                   </div>
                 </div>
               </div>
@@ -226,78 +226,78 @@
           </div>
 
           <!-- Label Detection -->
-          <div *ngIf="results.responses?.[0]?.labelAnnotations?.length" class="result-card">
+          <div *ngIf="results?.responses?.[0]?.labelAnnotations?.length" class="result-card">
             <div class="result-header">
               <span class="result-icon">🏷️</span>
               <h4>Rótulos Detectados</h4>
-              <span class="result-count">{{ results.responses[0].labelAnnotations?.length || 0 }} rótulo(s)</span>
+              <span class="result-count">{{ results?.responses?.[0]?.labelAnnotations?.length || 0 }} rótulo(s)</span>
             </div>
             <div class="result-content">
               <div class="labels-grid">
-                <div *ngFor="let label of results.responses[0]?.labelAnnotations || []" class="label-item">
-                  <span class="label-text">{{ label.description }}</span>
+                <div *ngFor="let label of (results?.responses?.[0]?.labelAnnotations || [])" class="label-item">
+                  <span class="label-text">{{ label?.description || 'N/A' }}</span>
                   <div class="confidence-bar">
-                    <div class="confidence-fill" [style.width.%]="label.score * 100"></div>
+                    <div class="confidence-fill" [style.width.%]="(label?.score ?? 0) * 100"></div>
                   </div>
-                  <span class="confidence-text">{{ (label.score * 100).toFixed(1) }}%</span>
+                  <span class="confidence-text">{{ ((label?.score ?? 0) * 100) | number:'1.0-1' }}%</span>
                 </div>
               </div>
             </div>
           </div>
 
           <!-- Text Detection -->
-          <div *ngIf="results.responses?.[0]?.textAnnotations?.length" class="result-card">
+          <div *ngIf="results?.responses?.[0]?.textAnnotations?.length" class="result-card">
             <div class="result-header">
               <span class="result-icon">📝</span>
               <h4>Detecção de Texto</h4>
-              <span class="result-count">{{ (results.responses[0].textAnnotations?.length || 1) - 1 }} texto(s)</span>
+              <span class="result-count">{{ ((results?.responses?.[0]?.textAnnotations?.length || 1) - 1) }}</span>
             </div>
             <div class="result-content">
-              <div *ngFor="let text of (results.responses[0]?.textAnnotations || []).slice(1)" class="text-item">
-                <div class="text-content">{{ text.description }}</div>
-                <div *ngIf="text.locale" class="text-meta">
-                  <span class="locale-badge">{{ text.locale }}</span>
+              <div *ngFor="let text of (results?.responses?.[0]?.textAnnotations || [])?.slice(1)" class="text-item">
+                <div class="text-content">{{ text?.description || 'N/A' }}</div>
+                <div *ngIf="text?.locale" class="text-meta">
+                  <span class="locale-badge">{{ text?.locale || 'N/A' }}</span>
                 </div>
               </div>
             </div>
           </div>
 
           <!-- Logo Detection -->
-          <div *ngIf="results.responses?.[0]?.logoAnnotations?.length" class="result-card">
+          <div *ngIf="results?.responses?.[0]?.logoAnnotations?.length" class="result-card">
             <div class="result-header">
               <span class="result-icon">🏢</span>
               <h4>Detecção de Logo</h4>
-              <span class="result-count">{{ results.responses[0].logoAnnotations?.length || 0 }} logo(s)</span>
+              <span class="result-count">{{ results?.responses?.[0]?.logoAnnotations?.length || 0 }} logo(s)</span>
             </div>
             <div class="result-content">
               <div class="logos-grid">
-                <div *ngFor="let logo of results.responses[0]?.logoAnnotations || []" class="logo-item">
-                  <span class="logo-name">{{ logo.description }}</span>
-                  <span class="confidence-badge">{{ (logo.score * 100).toFixed(0) }}%</span>
+                <div *ngFor="let logo of (results?.responses?.[0]?.logoAnnotations || [])" class="logo-item">
+                  <span class="logo-name">{{ logo?.description || 'N/A' }}</span>
+                  <span class="confidence-badge">{{ ((logo?.score ?? 0) * 100) | number:'1.0-0' }}%</span>
                 </div>
               </div>
             </div>
           </div>
 
           <!-- Landmark Detection -->
-          <div *ngIf="results.responses?.[0]?.landmarkAnnotations?.length" class="result-card">
+          <div *ngIf="results?.responses?.[0]?.landmarkAnnotations?.length" class="result-card">
             <div class="result-header">
               <span class="result-icon">🗺️</span>
               <h4>Detecção de Marco</h4>
-              <span class="result-count">{{ results.responses[0].landmarkAnnotations?.length || 0 }} marco(s)</span>
+              <span class="result-count">{{ results?.responses?.[0]?.landmarkAnnotations?.length || 0 }} marco(s)</span>
             </div>
             <div class="result-content">
               <div class="landmarks-grid">
-                <div *ngFor="let landmark of results.responses[0]?.landmarkAnnotations || []" class="landmark-item">
-                  <span class="landmark-name">{{ landmark.description }}</span>
-                  <span class="confidence-badge">{{ (landmark.score * 100).toFixed(0) }}%</span>
+                <div *ngFor="let landmark of (results?.responses?.[0]?.landmarkAnnotations || [])" class="landmark-item">
+                  <span class="landmark-name">{{ landmark?.description || 'N/A' }}</span>
+                  <span class="confidence-badge">{{ ((landmark?.score ?? 0) * 100) | number:'1.0-0' }}%</span>
                 </div>
               </div>
             </div>
           </div>
 
           <!-- Safe Search Analysis -->
-          <div *ngIf="results.responses?.[0]?.safeSearchAnnotation" class="result-card">
+          <div *ngIf="results?.responses?.[0]?.safeSearchAnnotation" class="result-card">
             <div class="result-header">
               <span class="result-icon">🛡️</span>
               <h4>Análise de Segurança de Conteúdo</h4>
@@ -306,20 +306,20 @@
               <div class="safety-grid">
                 <div class="safety-item">
                   <span class="safety-label">Adulto</span>
-                  <span class="safety-value" [class]="'safety-' + (results.responses[0].safeSearchAnnotation?.adult || '').toLowerCase()">
-                    {{ results.responses[0].safeSearchAnnotation?.adult || 'N/A' }}
+                  <span class="safety-value" [class]="'safety-' + (results?.responses?.[0]?.safeSearchAnnotation?.adult || '').toLowerCase()">
+                    {{ results?.responses?.[0]?.safeSearchAnnotation?.adult || 'N/A' }}
                   </span>
                 </div>
                 <div class="safety-item">
                   <span class="safety-label">Violência</span>
-                  <span class="safety-value" [class]="'safety-' + (results.responses[0].safeSearchAnnotation?.violence || '').toLowerCase()">
-                    {{ results.responses[0].safeSearchAnnotation?.violence || 'N/A' }}
+                  <span class="safety-value" [class]="'safety-' + (results?.responses?.[0]?.safeSearchAnnotation?.violence || '').toLowerCase()">
+                    {{ results?.responses?.[0]?.safeSearchAnnotation?.violence || 'N/A' }}
                   </span>
                 </div>
                 <div class="safety-item">
                   <span class="safety-label">Conteúdo Sensual</span>
-                  <span class="safety-value" [class]="'safety-' + (results.responses[0].safeSearchAnnotation?.racy || '').toLowerCase()">
-                    {{ results.responses[0].safeSearchAnnotation?.racy || 'N/A' }}
+                  <span class="safety-value" [class]="'safety-' + (results?.responses?.[0]?.safeSearchAnnotation?.racy || '').toLowerCase()">
+                    {{ results?.responses?.[0]?.safeSearchAnnotation?.racy || 'N/A' }}
                   </span>
                 </div>
               </div>
@@ -327,11 +327,11 @@
           </div>
 
           <!-- No Results Message -->
-          <div *ngIf="!results.responses?.[0]?.faceAnnotations?.length && 
-                       !results.responses[0]?.labelAnnotations?.length && 
-                       !results.responses[0]?.textAnnotations?.length &&
-                       !results.responses[0]?.logoAnnotations?.length &&
-                       !results.responses[0]?.landmarkAnnotations?.length" 
+          <div *ngIf="!(results?.responses?.[0]?.faceAnnotations?.length) && 
+                       !(results?.responses?.[0]?.labelAnnotations?.length) && 
+                       !(results?.responses?.[0]?.textAnnotations?.length) &&
+                       !(results?.responses?.[0]?.logoAnnotations?.length) &&
+                       !(results?.responses?.[0]?.landmarkAnnotations?.length)" 
                class="no-results-card">
             <div class="no-results-content">
               <span class="no-results-icon">🔍</span>

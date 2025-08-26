@@ -285,4 +285,16 @@ export class VisionAnalyzerComponent {
   getSelectedCount(): number {
     return this.selectedDetections.length;
   }
+
+  /**
+   * Converte um score de confiança para porcentagem formatada
+   * @param score - Score de confiança (0-1) ou undefined
+   * @returns Porcentagem formatada ou 'N/A' se não disponível
+   */
+  getConfidencePercentage(score: number | undefined): string {
+    if (score === undefined || score === null) {
+      return 'N/A';
+    }
+    return (score * 100).toFixed(0);
+  }
 }
