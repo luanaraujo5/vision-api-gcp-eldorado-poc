@@ -1,6 +1,6 @@
 import { bootstrapApplication } from '@angular/platform-browser';
 import { appConfig } from './app/app.config';
-import { App } from './app/app';
+import { VisionAnalyzerComponent } from './app/components/vision-analyzer/vision-analyzer.component';
 
-bootstrapApplication(App, appConfig)
-  .catch((err) => console.error(err));
+bootstrapApplication(VisionAnalyzerComponent, appConfig)
+  .catch(err => console.error(err));

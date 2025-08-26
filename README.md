@@ -1,59 +1,153 @@
-# VisionApiFrontend
+# Vision API Frontend
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.2.0.
+Frontend Angular para análise de imagens usando a Google Vision API.
 
-## Development server
+## 🚀 Funcionalidades
 
-To start a local development server, run:
+- **Upload de Imagens**: Suporte para JPG, PNG, GIF e BMP
+- **11 Tipos de Detecção**:
+  - Detecção de Rosto (emoções, pose, qualidade)
+  - Detecção de Lugares Famosos
+  - Detecção de Logos
+  - Rótulos Gerais
+  - Detecção de Texto (OCR)
+  - Texto de Documentos
+  - Análise de Segurança
+  - Propriedades da Imagem
+  - Localização de Objetos
+  - Sugestões de Recorte
+  - Detecção Web
 
+## 🛠️ Tecnologias
+
+- **Angular 20** com standalone components
+- **TypeScript** com tipagem estrita
+- **Google Vision API** para análise de imagens
+- **CSS Variables** para design system
+- **Responsive Design** mobile-first
+
+## 📋 Pré-requisitos
+
+- Node.js 18+ 
+- npm ou yarn
+- Google Cloud Platform account
+- Vision API habilitada
+- API Key válida
+
+## 🔧 Instalação
+
+1. **Clone o repositório**:
 ```bash
-ng serve
+git clone <repository-url>
+cd vision-api-frontend
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
+2. **Instale as dependências**:
 ```bash
-ng generate component component-name
+npm install
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+3. **Configure as variáveis de ambiente**:
+   - Copie `src/environments/environment.ts` para `src/environments/environment.prod.ts`
+   - Atualize a API key em ambos os arquivos
 
+4. **Execute o projeto**:
 ```bash
-ng generate --help
+npm start
 ```
 
-## Building
+## ⚙️ Configuração
 
-To build the project run:
+### Variáveis de Ambiente
 
-```bash
-ng build
+```typescript
+// src/environments/environment.ts
+export const environment = {
+  production: false,
+  apiUrl: 'https://vision.googleapis.com/v1/images:annotate',
+  apiKey: 'SUA_API_KEY_AQUI'
+};
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+### Google Cloud Vision API
 
-## Running unit tests
+1. Acesse [Google Cloud Console](https://console.cloud.google.com/)
+2. Crie um projeto ou selecione um existente
+3. Habilite a Vision API
+4. Crie uma API Key
+5. Configure restrições de segurança (recomendado)
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+## 🚀 Uso
+
+1. **Acesse a aplicação** em `http://localhost:4200`
+2. **Faça upload de uma imagem** clicando na área de upload
+3. **Selecione os tipos de detecção** desejados
+4. **Clique em "Analisar Imagem"**
+5. **Visualize os resultados** organizados por categoria
+
+## 📱 Responsividade
+
+- **Mobile-first** design
+- **Sidebar colapsável** em telas pequenas
+- **Grid adaptativo** para diferentes tamanhos de tela
+- **Touch-friendly** para dispositivos móveis
+
+## 🔒 Segurança
+
+- **Validação de arquivos** (tipo e tamanho)
+- **API Key** em variáveis de ambiente
+- **Tratamento de erros** robusto
+- **Validação de entrada** em todos os campos
+
+## 🧪 Testes
 
 ```bash
-ng test
+# Executar testes unitários
+npm test
+
+# Executar testes com coverage
+npm run test:coverage
 ```
 
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
+## 📦 Build
 
 ```bash
-ng e2e
+# Build de desenvolvimento
+npm run build
+
+# Build de produção
+npm run build -- --configuration production
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+## 🐛 Troubleshooting
 
-## Additional Resources
+### Erro de API Key
+- Verifique se a API Key está configurada corretamente
+- Confirme se a Vision API está habilitada
+- Verifique as restrições de segurança da API Key
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+### Erro de CORS
+- A API do Google não tem problemas de CORS
+- Verifique se a URL da API está correta
+
+### Arquivo muito grande
+- Limite máximo: 10MB
+- Use compressão de imagem se necessário
+
+## 📄 Licença
+
+Este projeto está sob a licença MIT.
+
+## 🤝 Contribuição
+
+1. Fork o projeto
+2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
+3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
+4. Push para a branch (`git push origin feature/AmazingFeature`)
+5. Abra um Pull Request
+
+## 📞 Suporte
+
+Para dúvidas ou problemas:
+- Abra uma issue no GitHub
+- Consulte a [documentação da Google Vision API](https://cloud.google.com/vision/docs)

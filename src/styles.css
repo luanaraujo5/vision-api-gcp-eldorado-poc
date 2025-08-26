@@ -1,1 +1,68 @@
+/* ===== IMPORTAÇÃO DA FONTE INTER ===== */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+/* ===== VARIÁVEIS CSS GLOBAIS COM AS CORES ESPECÍFICAS ===== */
+:root {
+  --white: #FFFFFF;
+  --dark-blue-gray: #4D607C;
+  --green: #10B981;
+  --very-dark-blue: #1F2C40;
+  --dark-blue-gray-2: #37455A;
+  --dark-blue-gray-3: #2E3C4E;
+  --teal-green: #34D399;
+  --off-white: #F8F8F8;
+  
+  --text-primary: var(--white);
+  --text-secondary: var(--dark-blue-gray);
+  --text-muted: var(--dark-blue-gray-2);
+  
+  --bg-primary: var(--very-dark-blue);
+  --bg-secondary: var(--dark-blue-gray);
+  --bg-tertiary: var(--dark-blue-gray-2);
+  --bg-card: var(--dark-blue-gray-3);
+  
+  --border-color: var(--dark-blue-gray-2);
+  --border-hover: var(--teal-green);
+  
+  --active-color: var(--green);
+  --hover-color: var(--teal-green);
+  
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.15);
+  --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.2);
+  
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  
+  --spacing-xs: 0.5rem;
+  --spacing-sm: 0.75rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  --spacing-2xl: 3rem;
+}
+
+/* ===== RESET GLOBAL ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  line-height: 1.6;
+  color: var(--text-primary);
+  background: var(--bg-primary);
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  background: var(--bg-primary);
+}
+
 /* You can add global styles to this file, and also import other style files */
